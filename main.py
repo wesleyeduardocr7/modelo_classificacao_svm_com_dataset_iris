@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import classification_report
 
 
 def main():
@@ -22,6 +23,10 @@ def main():
     clf.fit(X_train, y_train)
 
     print(clf.score(X_test, y_test))
+
+    y_pred = clf.predict(X_test)
+
+    print(classification_report(y_test, y_pred, target_names=iris.target_names))
 
     clf = svm.SVC(C=1, kernel='linear')
     clf.fit(X_train, y_train)
