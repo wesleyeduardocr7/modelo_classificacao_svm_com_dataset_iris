@@ -3,6 +3,7 @@ from sklearn import datasets
 import pandas as pd
 import seaborn as sns
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
 
 
 def main():
@@ -21,6 +22,20 @@ def main():
     clf.fit(X_train, y_train)
 
     print(clf.score(X_test, y_test))
+
+    clf = svm.SVC(C=1, kernel='linear')
+    clf.fit(X_train, y_train)
+
+    hiperparameters = {
+        'kernel': ('linear', 'rbf', 'poly'),
+        'C': [1.5, 10, 100, 1000],
+        'gamma': [1e-7, 1e-4, 1e-2, 0.1]
+    }
+
+    grid = GridSearchCV(svm.SVC(), hiperparameters, cv=5)
+    grid.fit(X_train, y_train)
+    print(grid.best_params_)
+    print(grid.best_score_)
 
 
 main()
